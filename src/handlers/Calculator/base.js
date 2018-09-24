@@ -14,9 +14,7 @@ export const {
     SET: {
       CURRENT_EXPRESSION: {
         action: ['currentExpression'],
-        reducer: {
-          reduce: ['currentExpression'],
-        },
+        reducer: ['currentExpression'],
       },
     },
   },

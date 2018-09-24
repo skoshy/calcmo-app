@@ -7,40 +7,45 @@ import {
 import { withNavigation } from 'react-navigation';
 import { withTheme } from 'styled-components';
 import {
-  Header2,
   BodyText,
 } from './Core/Text';
 import { stateMapper, actionsMapper, nameSpaces } from '../handlers';
 
 
-const ThisComponent = withTheme(withNavigation(({ theme, navigation, text, $actions }) => {
-  let componentStyle = {
-    backgroundColor: theme.postBackgroundColor,
-    padding: 20,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 1,
-    borderRadius: 5,
-    shadowColor: theme.postShadowColor,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
+const ThisComponent = withTheme(withNavigation(
+  (
+    {
+      theme,
+      text,
+      $actions,
+    },
+  ) => {
+    const componentStyle = {
+      backgroundColor: theme.postBackgroundColor,
+      padding: 20,
+      shadowOffset: { width: 1, height: 1 },
+      shadowOpacity: 1,
+      borderRadius: 5,
+      shadowColor: theme.postShadowColor,
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    };
 
-  console.log(text);
-
-  return (
-    <TouchableOpacity
-      style={componentStyle}
-      onPress={() => $actions.CALCULATOR.setCurrentExpression(text)}
-    >
-      <View>
-        <BodyText>
-          {text}
-        </BodyText>
-      </View>
-    </TouchableOpacity>
-  );
-}));
+    return (
+      <TouchableOpacity
+        style={componentStyle}
+        onPress={() => $actions.CALCULATOR.setCurrentExpression(text)}
+      >
+        <View>
+          <BodyText>
+            {text}
+          </BodyText>
+        </View>
+      </TouchableOpacity>
+    );
+  },
+));
 
 export default connect(
   // variables from the store -> maps to this.props.$state

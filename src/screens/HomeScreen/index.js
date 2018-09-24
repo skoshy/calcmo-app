@@ -12,24 +12,44 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { BackgroundView } from '../../components/Core/Containers';
-import { BodyText } from '../../components/Core/Text';
+import { TextInput } from '../../components/Core/Input';
 import NumberPanel from './NumberPanel';
 import { stateMapper, actionsMapper, nameSpaces } from '../../handlers';
 
-const ThisComponent = ({ $state }) => {
-  return (
-    <BackgroundView>
-      <View style={{ flex: 1 }}>
-        <BodyText>
-          {$state.currentExpression}
-        </BodyText>
-      </View>
-      <NumberPanel />
-    </BackgroundView>
-  );
-};
+class ThisComponent extends React.Component {
+  MainInput = null;
 
-console.log(nameSpaces);
+  render = () => {
+    const { $state, $actions } = this.props;
+
+    return (
+      <BackgroundView>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <TextInput
+            ref={(input) => { this.MainInput = input; }}
+            style={{ fontSize: 40 }}
+            value={$state.currentExpression}
+            onChangeText={(text) => {
+              $actions.CALCULATOR.setCurrentExpression(text);
+            }}
+            onFocus={(event) => {
+              console.log('focus', event);
+            }}
+            onBlur={(event) => {
+              console.log('blur', event);
+            }}
+            onSelectionChange={(event) => {
+              console.log('newSelection', event.nativeEvent.selection);
+            }}
+          />
+        </View>
+        <NumberPanel
+          mainInput={this.MainInput}
+        />
+      </BackgroundView>
+    );
+  };
+}
 
 export default connect(
   // variables from the store -> maps to this.props.$state
@@ -39,6 +59,6 @@ export default connect(
 
   // actions -> maps to this.props.$actions.{SHADOW_NAME}
   actionsMapper([
-    nameSpaces.APP,
+    nameSpaces.APP, nameSpaces.CALCULATOR,
   ]),
 )(ThisComponent);
